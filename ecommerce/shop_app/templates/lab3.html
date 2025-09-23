@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>lab3</h2>
+{%if products %}
+<ul>
+    {% for i in products%}
+    <li>Нэр: {{i.product_name}} <br> Зураг: <img src='{{i.images.url}} ' alt="{{i.product_name}} " width="200px" height="200px"></li>
+    {%endfor%}
+</ul>
+{% else %}
+<p>data алга байна.</p>
+{% endif %}
+
+{% endblock%}
