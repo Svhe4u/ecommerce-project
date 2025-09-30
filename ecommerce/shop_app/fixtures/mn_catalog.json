@@ -1,0 +1,187 @@
+[
+  {
+    "model": "shop_app.category",
+    "pk": 1,
+    "fields": {
+      "category_name": "Кофе",
+      "slug": "kofe",
+      "description": "Үртэсээр шарсан, өдөр тутмын кофе",
+      "cat_image": ""
+    }
+  },
+  {
+    "model": "shop_app.category",
+    "pk": 2,
+    "fields": {
+      "category_name": "Эспрессо",
+      "slug": "espresso",
+      "description": "Төвлөрсөн хүчтэй эспрессо",
+      "cat_image": ""
+    }
+  },
+  {
+    "model": "shop_app.category",
+    "pk": 3,
+    "fields": {
+      "category_name": "Латте",
+      "slug": "latte",
+      "description": "Сүүтэй зөөлөн латте",
+      "cat_image": ""
+    }
+  },
+  {
+    "model": "shop_app.category",
+    "pk": 4,
+    "fields": {
+      "category_name": "Капучино",
+      "slug": "kapuchino",
+      "description": "Хөөсөрсөн, тэнцвэртэй амт",
+      "cat_image": ""
+    }
+  },
+  {
+    "model": "shop_app.category",
+    "pk": 5,
+    "fields": {
+      "category_name": "Маккиато",
+      "slug": "makkiato",
+      "description": "Карамелийн өнгө аястай маккиато",
+      "cat_image": ""
+    }
+  },
+
+  {"model": "shop_app.product", "pk": 1, "fields": {
+    "product_name": "Эспрессо",
+    "slug": "espresso",
+    "description": "Классик богино шот",
+    "price": 4500,
+    "images": "photos/products/Espresso.png",
+    "stock": 50,
+    "is_available": true,
+    "category": 2,
+    "created_date": "2025-01-01T09:00:00Z",
+    "modified_date": "2025-01-01T09:00:00Z"
+  }},
+  {"model": "shop_app.product", "pk": 2, "fields": {
+    "product_name": "Эспрессо Икс",
+    "slug": "espresso-ix",
+    "description": "Илүү хүчтэй шот",
+    "price": 5000,
+    "images": "photos/products/Espresso_BEiSU2h.png",
+    "stock": 40,
+    "is_available": true,
+    "category": 2,
+    "created_date": "2025-01-01T09:05:00Z",
+    "modified_date": "2025-01-01T09:05:00Z"
+  }},
+  {"model": "shop_app.product", "pk": 3, "fields": {
+    "product_name": "Латте",
+    "slug": "latte",
+    "description": "Сүүтэй, зөөлөн амт",
+    "price": 5200,
+    "images": "photos/products/Latte.png",
+    "stock": 45,
+    "is_available": true,
+    "category": 3,
+    "created_date": "2025-01-01T09:10:00Z",
+    "modified_date": "2025-01-01T09:10:00Z"
+  }},
+  {"model": "shop_app.product", "pk": 4, "fields": {
+    "product_name": "Латте Классик",
+    "slug": "latte-klassik",
+    "description": "Сонгодог латте хувилбар",
+    "price": 5200,
+    "images": "photos/products/Latte_odRk5QG.png",
+    "stock": 45,
+    "is_available": true,
+    "category": 3,
+    "created_date": "2025-01-01T09:15:00Z",
+    "modified_date": "2025-01-01T09:15:00Z"
+  }},
+  {"model": "shop_app.product", "pk": 5, "fields": {
+    "product_name": "Капучино",
+    "slug": "kapuchino",
+    "description": "Тэнцвэртэй, хөөсөрсөн амт",
+    "price": 5200,
+    "images": "photos/products/Cappuccino.jpg",
+    "stock": 45,
+    "is_available": true,
+    "category": 4,
+    "created_date": "2025-01-01T09:20:00Z",
+    "modified_date": "2025-01-01T09:20:00Z"
+  }},
+  {"model": "shop_app.product", "pk": 6, "fields": {
+    "product_name": "Капучино Лайт",
+    "slug": "kapuchino-light",
+    "description": "Хөнгөн амттай хувилбар",
+    "price": 5200,
+    "images": "photos/products/Cappuccino_ASAUgxE.jpg",
+    "stock": 45,
+    "is_available": true,
+    "category": 4,
+    "created_date": "2025-01-01T09:25:00Z",
+    "modified_date": "2025-01-01T09:25:00Z"
+  }},
+  {"model": "shop_app.product", "pk": 7, "fields": {
+    "product_name": "Капучино Рич",
+    "slug": "kapuchino-rich",
+    "description": "Баян амт, өтгөн хөөс",
+    "price": 5500,
+    "images": "photos/products/Cappuccino_Qv3Ye06.jpg",
+    "stock": 30,
+    "is_available": true,
+    "category": 4,
+    "created_date": "2025-01-01T09:30:00Z",
+    "modified_date": "2025-01-01T09:30:00Z"
+  }},
+  {"model": "shop_app.product", "pk": 8, "fields": {
+    "product_name": "Карамель Маккиато",
+    "slug": "karamel-makkiato",
+    "description": "Карамельтэй амттай",
+    "price": 6000,
+    "images": "photos/products/Caramel_Macchiato.png",
+    "stock": 35,
+    "is_available": true,
+    "category": 5,
+    "created_date": "2025-01-01T09:35:00Z",
+    "modified_date": "2025-01-01T09:35:00Z"
+  }},
+  {"model": "shop_app.product", "pk": 9, "fields": {
+    "product_name": "Карамель Маккиато Делюкс",
+    "slug": "karamel-makkiato-deluxe",
+    "description": "Илүү их карамель, баяжуулсан",
+    "price": 6500,
+    "images": "photos/products/Caramel_Macchiato_ACyPHK0.png",
+    "stock": 25,
+    "is_available": true,
+    "category": 5,
+    "created_date": "2025-01-01T09:40:00Z",
+    "modified_date": "2025-01-01T09:40:00Z"
+  }},
+  {"model": "shop_app.product", "pk": 10, "fields": {
+    "product_name": "Американо",
+    "slug": "amerikano",
+    "description": "Усаар сүлжилттэй эспрессо",
+    "price": 4000,
+    "images": "photos/products/Screenshot_2.png",
+    "stock": 60,
+    "is_available": true,
+    "category": 1,
+    "created_date": "2025-01-01T09:45:00Z",
+    "modified_date": "2025-01-01T09:45:00Z"
+  }},
+  {"model": "shop_app.product", "pk": 11, "fields": {
+    "product_name": "Хаус Бленд",
+    "slug": "house-blend",
+    "description": "Өргөн амттай гэрийн холимог",
+    "price": 4200,
+    "images": "photos/products/ThunderZ_-_Tsumuuhei_Animated_Video.mp42025-06-05_15-01-36.026.jpg",
+    "stock": 55,
+    "is_available": true,
+    "category": 1,
+    "created_date": "2025-01-01T09:50:00Z",
+    "modified_date": "2025-01-01T09:50:00Z"
+  }}
+]
+
+

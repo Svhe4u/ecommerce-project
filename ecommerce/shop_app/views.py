@@ -36,7 +36,19 @@ def register(request):
 
 
 def search_result(request):
-    return render(request, "search-result.html")
+    categories = Category.objects.all()
+    query = request.GET.get('q') or ''
+    if query:
+        products = Product.objects.filter(product_name__icontains=query)
+    else:
+        products = Product.objects.all()
+    context = {
+        "categories": categories,
+        "products": products,
+        "products_count": products.count(),
+        "query": query,
+    }
+    return render(request, "search-result.html", context)
 
 
 def signin(request):
