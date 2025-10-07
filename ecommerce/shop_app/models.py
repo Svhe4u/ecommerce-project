@@ -1,5 +1,7 @@
 from django.db import models
 from django.db.models.fields import SlugField
+from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -13,6 +15,9 @@ class Category(models.Model):
 
     class Meta:
         db_table = 'category_tbl'
+
+    def get_url(self):
+        return reverse('store_by_category', args=[self.slug])
 
 
 class Product(models.Model):
@@ -32,4 +37,29 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.product_name} ({self.category.category_name})'
+    
+    def get_url(self):
+        return reverse('product_detail_by_slug', args=[self.category.slug, self.slug])
+# Create your models here.
+
+
+class ImageGallery(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='store/products', max_length=255)
+
+    def __str__(self):
+        return self.product.product_name
+
+
+class ReviewRating(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    review = models.TextField(max_length=500)
+    rating = models.FloatField()
+    created_date = models.DateField(auto_now_add=True)
+    ip = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.title
 # Create your models here.
