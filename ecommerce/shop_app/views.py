@@ -33,9 +33,31 @@ def dashboard(request):
 def order_complete(request):
     return render(request, "order_complete.html")
 
+def product_detail(request, category_slug, product_slug):
+    product = Product.objects.get(category__slug = category_slug, slug=product_slug)
+    product_gallery = ImageGallery.objects.filter(product_id = product.id)
+    rate = ReviewRating.objects.filter(
+        product_id=product.id).aggregate(Avg('rating'))
+    con = sql.connect("db.sqlite3")
+    con.row_factory = sql.Row
+    cur = con.cursor()
+    cur.execute(f"""SELECT title, review, username, pro_image FROM 
+        (auth_user INNER JOIN accounts_account
+        ON auth_user.id = accounts_account.user_id) 
+        INNER JOIN store_reviewrating
+        ON accounts_account.user_id = store_reviewrating.user_id 
+        WHERE product_id={product.id}""")
 
-def product_detail(request, id):
-    return render(request, "product-detail.html", {'id': id})
+    comments = cur.fetchall()
+    
+    context = {
+        'single_product': product,
+        'product_gallery': product_gallery,
+        'rate': rate['rating__avg'],
+        'comments': comments,
+    }
+
+    return render(request, "product_detail.html", context)
 
 
 def register(request):
@@ -73,18 +95,33 @@ def home(request):
     return render(request, "home.html", context)
 
 
-def store(request):
-    # Use raw SQL to demonstrate alternative querying
-    raw_products = Product.objects.raw("SELECT * FROM baraa_tbl")
-    products_count = Product.objects.count()
-    categories = Category.objects.all()
-    context = {
-        "products": raw_products,
-        "products_count": products_count,
-        "categories": categories,
-    }
-    return render(request, "store.html", context)
+def store(request, category_slug=None):
+    cat = None
+    pr = None
 
+    if category_slug != None:
+        cate = get_object_or_404(Category, slug=category_slug)
+        product_qs = Product.objects.filter(category=cate)
+    else:
+        product_qs = Product.objects.filter(is_available=True)
+
+    paginator = Paginator(product_qs, 9)
+    page_number = request.GET.get('page')
+    paged_products = paginator.get_page(page_number)
+    count = product_qs.count()
+
+    categories = Category.objects.all()
+
+    context = {
+        'products': paged_products,
+        'count': count,
+        'categories': categories,
+        'is_paginated': paged_products.has_other_pages(),
+        'page_obj': paged_products,
+        'paginator': paginator,
+    }
+
+    return render(request, "store.html", context)
 
 def lab3(request):
     products = Product.objects.all()
@@ -101,15 +138,20 @@ def store_by_category(request, category_slug=None):
     else:
         product_qs = Product.objects.filter(is_available=True)
 
-    paginator = Paginator(product_qs, 3)
+    paginator = Paginator(product_qs, 6)
     page = request.GET.get('page')
     paged_products = paginator.get_page(page)
     count = product_qs.count()
+    categories = Category.objects.all()
 
     context = {
         'products': paged_products,
         'count': count,
         'category': category,
+        'categories': categories,
+        'is_paginated': paged_products.has_other_pages(),
+        'page_obj': paged_products,
+        'paginator': paginator,
     }
     return render(request, "store.html", context)
 

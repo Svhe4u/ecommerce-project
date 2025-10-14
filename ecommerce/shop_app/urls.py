@@ -19,4 +19,4 @@ urlpatterns = [
     path('signin/', views.signin, name="signin"),
     path('store/', views.store, name="store"),
     path('lab3/', views.lab3, name="lab3"),
-]
+]         

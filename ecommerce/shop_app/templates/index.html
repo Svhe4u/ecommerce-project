@@ -26,78 +26,23 @@
 
 
 		<div class="row">
+			{% for p in products|slice:":8" %}
 			<div class="col-md-3">
 				<div class="card card-product-grid">
-					<a href="{% url 'product_detail' id=1%}" class="img-wrap"> <img src="{%static 'images/items/1.jpg'%} "> </a>
+					<a href="{{ p.get_url }}" class="img-wrap">
+						<img src="/media/{{ p.images }}">
+					</a>
 					<figcaption class="info-wrap">
-						<a href="{%url 'product_detail' id=1 %}" class="title">Just another product name</a>
-						<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
+						<a href="{{ p.get_url }}" class="title">{{ p.product_name }}</a>
+						<div class="price mt-1">₮{{ p.price }}</div>
 					</figcaption>
 				</div>
-			</div> <!-- col.// -->
-			<div class="col-md-3">
-				<div class="card card-product-grid">
-					<a href="{% url 'product_detail' id=2%}" class="img-wrap"> <img src="{%static 'images/items/2.jpg'%}"> </a>
-					<figcaption class="info-wrap">
-						<a href="{% url 'product_detail' id=2%}" class="title">Some item name here</a>
-						<div class="price mt-1">$280.00</div> <!-- price-wrap.// -->
-					</figcaption>
-				</div>
-			</div> <!-- col.// -->
-			<div class="col-md-3">
-				<div class="card card-product-grid">
-					<a href="{% url 'product_detail' id=3%}" class="img-wrap"> <img src="{%static 'images/items/3.jpg'%}"> </a>
-					<figcaption class="info-wrap">
-						<a href="{% url 'product_detail' id=3%}" class="title">Great product name here</a>
-						<div class="price mt-1">$56.00</div> <!-- price-wrap.// -->
-					</figcaption>
-				</div>
-			</div> <!-- col.// -->
-			<div class="col-md-3">
-				<div class="card card-product-grid">
-					<a href="{% url 'product_detail' id=4%}" class="img-wrap"> <img src="{%static 'images/items/4.jpg'%}"> </a>
-					<figcaption class="info-wrap">
-						<a href="{% url 'product_detail' id=4%}" class="title">Just another product name</a>
-						<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
-					</figcaption>
-				</div>
-			</div> <!-- col.// -->
-			<div class="col-md-3">
-				<div class="card card-product-grid">
-					<a href="{% url 'product_detail' id=5%}" class="img-wrap"> <img src="{%static 'images/items/5.jpg'%}"> </a>
-					<figcaption class="info-wrap">
-						<a href="{% url 'product_detail' id=5%}" class="title">Just another product name</a>
-						<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
-					</figcaption>
-				</div>
-			</div> <!-- col.// -->
-			<div class="col-md-3">
-				<div class="card card-product-grid">
-					<a href="{% url 'product_detail' id=6%}" class="img-wrap"> <img src="{% static 'images/items/6.jpg'%}"> </a>
-					<figcaption class="info-wrap">
-						<a href="{% url 'product_detail' id=6%}" class="title">Some item name here</a>
-						<div class="price mt-1">$280.00</div> <!-- price-wrap.// -->
-					</figcaption>
-				</div>
-			</div> <!-- col.// -->
-			<div class="col-md-3">
-				<div class="card card-product-grid">
-					<a href="{% url 'product_detail' id=7%}" class="img-wrap"> <img src="{%static 'images/items/7.jpg'%}"> </a>
-					<figcaption class="info-wrap">
-						<a href="{% url 'product_detail' id=7%}" class="title">Great product name here</a>
-						<div class="price mt-1">$56.00</div> <!-- price-wrap.// -->
-					</figcaption>
-				</div>
-			</div> <!-- col.// -->
-			<div class="col-md-3">
-				<div class="card card-product-grid">
-					<a href="{% url 'product_detail' id=8%}" class="img-wrap"> <img src="{%static 'images/items/9.jpg'%}"> </a>
-					<figcaption class="info-wrap">
-						<a href="{% url 'product_detail' id=8%}" class="title">Just another product name</a>
-						<div class="price mt-1">$179.00</div> <!-- price-wrap.// -->
-					</figcaption>
-				</div>
-			</div> <!-- col.// -->
+			</div>
+			{% empty %}
+			<div class="col-12">
+				<p class="text-muted">No products available.</p>
+			</div>
+			{% endfor %}
 		</div> <!-- row.// -->
 
 	</div><!-- container // -->
