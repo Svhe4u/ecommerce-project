@@ -105,6 +105,30 @@ def store(request, category_slug=None):
     else:
         product_qs = Product.objects.filter(is_available=True)
 
+    # Keyword search (optional, supports lab spec keyword param)
+    keyword = (request.GET.get('keyword') or '').strip()
+    if keyword:
+        product_qs = product_qs.filter(
+            Q(product_name__icontains=keyword) | Q(description__icontains=keyword)
+        )
+
+    # Price range filter
+    min_price_raw = request.GET.get('min_price')
+    max_price_raw = request.GET.get('max_price')
+    try:
+        min_price = int(min_price_raw) if (min_price_raw is not None and min_price_raw != '') else None
+    except ValueError:
+        min_price = None
+    try:
+        max_price = int(max_price_raw) if (max_price_raw is not None and max_price_raw != '') else None
+    except ValueError:
+        max_price = None
+
+    if min_price is not None:
+        product_qs = product_qs.filter(price__gte=min_price)
+    if max_price is not None:
+        product_qs = product_qs.filter(price__lte=max_price)
+
     paginator = Paginator(product_qs, 9)
     page_number = request.GET.get('page')
     paged_products = paginator.get_page(page_number)
@@ -119,6 +143,10 @@ def store(request, category_slug=None):
         'is_paginated': paged_products.has_other_pages(),
         'page_obj': paged_products,
         'paginator': paginator,
+        # Preserve filters in template
+        'query': keyword,
+        'min_price': min_price,
+        'max_price': max_price,
     }
 
     return render(request, "store.html", context)
@@ -138,6 +166,30 @@ def store_by_category(request, category_slug=None):
     else:
         product_qs = Product.objects.filter(is_available=True)
 
+    # Keyword filter (same as store)
+    keyword = (request.GET.get('keyword') or '').strip()
+    if keyword:
+        product_qs = product_qs.filter(
+            Q(product_name__icontains=keyword) | Q(description__icontains=keyword)
+        )
+
+    # Price range filter (same as store)
+    min_price_raw = request.GET.get('min_price')
+    max_price_raw = request.GET.get('max_price')
+    try:
+        min_price = int(min_price_raw) if (min_price_raw is not None and min_price_raw != '') else None
+    except ValueError:
+        min_price = None
+    try:
+        max_price = int(max_price_raw) if (max_price_raw is not None and max_price_raw != '') else None
+    except ValueError:
+        max_price = None
+
+    if min_price is not None:
+        product_qs = product_qs.filter(price__gte=min_price)
+    if max_price is not None:
+        product_qs = product_qs.filter(price__lte=max_price)
+
     paginator = Paginator(product_qs, 6)
     page = request.GET.get('page')
     paged_products = paginator.get_page(page)
@@ -152,6 +204,9 @@ def store_by_category(request, category_slug=None):
         'is_paginated': paged_products.has_other_pages(),
         'page_obj': paged_products,
         'paginator': paginator,
+        'query': keyword,
+        'min_price': min_price,
+        'max_price': max_price,
     }
     return render(request, "store.html", context)
 
@@ -177,16 +232,44 @@ def product_detail_by_slug(request, category_slug, product_slug):
 
 def search(request):
     kw = request.GET.get('keyword', '').strip()
+    products = Product.objects.filter(is_available=True)
     if kw:
-        products = Product.objects.filter(
+        products = products.filter(
             Q(product_name__icontains=kw) | Q(description__icontains=kw)
         )
-    else:
-        products = Product.objects.none()
+
+    # Price range support on search as well
+    min_price_raw = request.GET.get('min_price')
+    max_price_raw = request.GET.get('max_price')
+    try:
+        min_price = int(min_price_raw) if (min_price_raw is not None and min_price_raw != '') else None
+    except ValueError:
+        min_price = None
+    try:
+        max_price = int(max_price_raw) if (max_price_raw is not None and max_price_raw != '') else None
+    except ValueError:
+        max_price = None
+
+    if min_price is not None:
+        products = products.filter(price__gte=min_price)
+    if max_price is not None:
+        products = products.filter(price__lte=max_price)
+
+    # Paginate to reuse store.html pagination UI
+    paginator = Paginator(products, 9)
+    page_number = request.GET.get('page')
+    paged_products = paginator.get_page(page_number)
+
     context = {
-        'products': products,
+        'products': paged_products,
         'count': products.count(),
-        'kw': kw,
+        'categories': Category.objects.all(),
+        'is_paginated': paged_products.has_other_pages(),
+        'page_obj': paged_products,
+        'paginator': paginator,
+        'query': kw,
+        'min_price': min_price,
+        'max_price': max_price,
     }
     return render(request, "store.html", context)
 
