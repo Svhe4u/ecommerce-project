@@ -129,7 +129,7 @@ def store(request, category_slug=None):
     if max_price is not None:
         product_qs = product_qs.filter(price__lte=max_price)
 
-    paginator = Paginator(product_qs, 9)
+    paginator = Paginator(product_qs, 6)
     page_number = request.GET.get('page')
     paged_products = paginator.get_page(page_number)
     count = product_qs.count()
